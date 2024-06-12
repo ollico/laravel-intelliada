@@ -77,7 +77,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Ollico\\LaravelIntelliada\\IntelliadaServiceProvider"
+                "Ollico\\LaravelIntelliada\\LaravelIntelliadaServiceProvider"
             ],
             "aliases": {
                 "Intelliada": "Ollico\\LaravelIntelliada\\Facades\\Intelliada"

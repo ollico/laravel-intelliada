@@ -2,7 +2,7 @@
 
 namespace Ollico\LaravelIntelliada\Tests;
 
-use Ollico\LaravelIntelliada\IntelliadaServiceProvider;
+use Ollico\LaravelIntelliada\LaravelIntelliadaServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
@@ -15,7 +15,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app)
     {
         return [
-            IntelliadaServiceProvider::class,
+            LaravelIntelliadaServiceProvider::class,
         ];
     }
 

@@ -3,11 +3,11 @@
 namespace Ollico\LaravelIntelliada;
 
 use Ollico\Intelliada\Http\Client;
-use Ollico\LaravelIntelliada\Facades\Intelliada;
+use Ollico\Intelliada\Intelliada;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class IntelliadaServiceProvider extends PackageServiceProvider
+class LaravelIntelliadaServiceProvider extends PackageServiceProvider
 {
     public function packageRegistered()
     {
