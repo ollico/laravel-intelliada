@@ -1,25 +1,31 @@
 <?php
 
-namespace Ollico\Intelliada;
+namespace Ollico\LaravelIntelliada;
 
-use Ollico\Intelliada\Commands\IntelliadaCommand;
+use Ollico\Intelliada\Http\Client;
+use Ollico\LaravelIntelliada\Facades\Intelliada;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
 class IntelliadaServiceProvider extends PackageServiceProvider
 {
+    public function packageRegistered()
+    {
+        $this->app->singleton(Intelliada::class, function ($app) {
+            return new Intelliada(
+                new Client(
+                    config('intelliada.token'),
+                    config('intelliada.url')
+                ),
+                config('intelliada.key'),
+            );
+        });
+    }
+
     public function configurePackage(Package $package): void
     {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
         $package
             ->name('laravel-intelliada')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_laravel-intelliada_table')
-            ->hasCommand(IntelliadaCommand::class);
+            ->hasConfigFile();
     }
 }

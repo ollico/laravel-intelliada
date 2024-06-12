@@ -1,11 +1,11 @@
 <?php
 
-namespace Ollico\Intelliada\Facades;
+namespace Ollico\LaravelIntelliada\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
 /**
- * @see \Ollico\Intelliada\Intelliada
+ * @see \Ollico\LaravelIntelliada\Intelliada
  */
 class Intelliada extends Facade
 {

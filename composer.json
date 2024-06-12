@@ -41,14 +41,12 @@
     ],
     "autoload": {
         "psr-4": {
-            "Ollico\\Intelliada\\": "src/",
-            "Ollico\\Intelliada\\Database\\Factories\\": "database/factories/"
+            "Ollico\\LaravelIntelliada\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Ollico\\Intelliada\\Tests\\": "tests/",
-            "Workbench\\App\\": "workbench/app/"
+            "Ollico\\LaravelIntelliada\\Tests\\": "tests/"
         }
     },
     "scripts": {
@@ -79,10 +77,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Ollico\\Intelliada\\IntelliadaServiceProvider"
+                "Ollico\\LaravelIntelliada\\IntelliadaServiceProvider"
             ],
             "aliases": {
-                "Intelliada": "Ollico\\Intelliada\\Facades\\Intelliada"
+                "Intelliada": "Ollico\\LaravelIntelliada\\Facades\\Intelliada"
             }
         }
     },

@@ -1,5 +1,5 @@
 <?php
 
-use Ollico\Intelliada\Tests\TestCase;
+use Ollico\LaravelIntelliada\Tests\TestCase;
 
 uses(TestCase::class)->in(__DIR__);

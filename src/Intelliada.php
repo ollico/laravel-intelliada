@@ -1,7 +1,9 @@
 <?php
 
-namespace Ollico\Intelliada;
+namespace Ollico\LaravelIntelliada;
 
-class Intelliada
+use Ollico\Intelliada\Intelliada as BaseClass;
+
+class Intelliada extends BaseClass
 {
 }
