@@ -6,10 +6,13 @@ use Illuminate\Support\Str;
 use Ollico\Intelliada\Event;
 use Ollico\Intelliada\Http\Exceptions\HttpClientException;
 use Ollico\LaravelIntelliada\Facades\Intelliada;
+use Ollico\LaravelIntelliada\Tests\Concerns\TestHelpers;
 use Ollico\LaravelIntelliada\Tests\Mocks\FakeClient;
 
 class IntelliadaTest extends TestCase
 {
+    use TestHelpers;
+
     protected FakeClient $client;
 
     protected Intelliada $intelliada;
@@ -23,16 +26,12 @@ class IntelliadaTest extends TestCase
         $this->client = new FakeClient();
 
         $this->tenantId = Str::uuid()->toString();
-
-        $this->intelliada = new Intelliada;
-
-        putenv('INTELLIADA_TOKEN=fd0730a-01fd-4a57-8909-379695758e62');
-        putenv('INTELLIADA_KEY=d7052a47-c4df-4575-932b-b09fefa749bc');
-        putenv('INTELLIADA_URL=https://www.intelliada.com/api');
     }
 
     public function test_it_can_send_an_event()
     {
+        $this->setConfigVars($this->tenantId);
+
         $spaceId = Str::uuid()->toString();
 
         $event = Event::make()
@@ -40,16 +39,18 @@ class IntelliadaTest extends TestCase
             ->setData(['foo' => 'bar'])
             ->setOldData(['bar' => 'foo']);
 
-        $this->intelliada->setClient($this->client);
+        $intelliada = Intelliada::setClient($this->client);
 
-        $this->intelliada->sendEvent($spaceId, $event);
-        $this->intelliada->sendEvent($spaceId, $event);
+        $intelliada->sendEvent($spaceId, $event);
+        $intelliada->sendEvent($spaceId, $event);
 
         $this->assertEquals(2, $this->client->requestCount());
     }
 
-    /* public function test_it_sends_the_correct_data()
+    public function test_it_sends_the_correct_data()
     {
+        $this->setConfigVars($this->tenantId);
+
         $spaceId = Str::uuid()->toString();
 
         $event = Event::make()
@@ -57,9 +58,9 @@ class IntelliadaTest extends TestCase
             ->setData(['foo' => 'bar'])
             ->setOldData(['bar' => 'foo']);
 
-        $logger = new Intelliada();
+        $intelliada = Intelliada::setClient($this->client);
 
-        $logger->sendEvent($spaceId, $event);
+        $intelliada->sendEvent($spaceId, $event);
 
         $request = $this->client->request(0);
 
@@ -72,6 +73,8 @@ class IntelliadaTest extends TestCase
 
     public function test_it_can_throw_an_exception_for_invalid_data()
     {
+        $this->setConfigVars($this->tenantId);
+
         $this->expectException(HttpClientException::class);
 
         $spaceId = Str::uuid()->toString();
@@ -84,6 +87,8 @@ class IntelliadaTest extends TestCase
 
     public function test_it_can_throw_an_exception_for_not_found()
     {
+        $this->setConfigVars($this->tenantId);
+
         $this->expectException(HttpClientException::class);
 
         $spaceId = Str::uuid()->toString();
@@ -96,6 +101,8 @@ class IntelliadaTest extends TestCase
 
     public function test_it_can_throw_an_exception_for_server_errors()
     {
+        $this->setConfigVars($this->tenantId);
+
         $this->expectException(HttpClientException::class);
 
         $spaceId = Str::uuid()->toString();
@@ -104,5 +111,5 @@ class IntelliadaTest extends TestCase
 
         Intelliada::setClient(new FakeClient(statusCode: 500))
             ->sendEvent($spaceId, $event);
-    } */
+    }
 }
