@@ -1,0 +1,91 @@
+{
+    "name": "ollico/laravel-intelliada",
+    "description": "Laravel client for Intelliada",
+    "keywords": [
+        "Ollico",
+        "laravel",
+        "laravel-intelliada"
+    ],
+    "homepage": "https://github.com/ollico/laravel-intelliada",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ollico",
+            "email": "support@ollicosoftware.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "spatie/laravel-package-tools": "^1.16",
+        "ollico/intelliada": "dev-main",
+        "illuminate/contracts": "^10.0||^11.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.14",
+        "nunomaduro/collision": "^8.1.1||^7.10.0",
+        "larastan/larastan": "^2.9",
+        "orchestra/testbench": "^9.0.0||^8.22.0",
+        "pestphp/pest": "^2.34",
+        "pestphp/pest-plugin-arch": "^2.7",
+        "pestphp/pest-plugin-laravel": "^2.3",
+        "phpstan/extension-installer": "^1.3",
+        "phpstan/phpstan-deprecation-rules": "^1.1",
+        "phpstan/phpstan-phpunit": "^1.3"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:ollico/intelliada.git"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Ollico\\Intelliada\\": "src/",
+            "Ollico\\Intelliada\\Database\\Factories\\": "database/factories/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Ollico\\Intelliada\\Tests\\": "tests/",
+            "Workbench\\App\\": "workbench/app/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@composer run prepare",
+        "clear": "@php vendor/bin/testbench package:purge-laravel-intelliada --ansi",
+        "prepare": "@php vendor/bin/testbench package:discover --ansi",
+        "build": [
+            "@composer run prepare",
+            "@php vendor/bin/testbench workbench:build --ansi"
+        ],
+        "start": [
+            "Composer\\Config::disableProcessTimeout",
+            "@composer run build",
+            "@php vendor/bin/testbench serve"
+        ],
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Ollico\\Intelliada\\IntelliadaServiceProvider"
+            ],
+            "aliases": {
+                "Intelliada": "Ollico\\Intelliada\\Facades\\Intelliada"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
