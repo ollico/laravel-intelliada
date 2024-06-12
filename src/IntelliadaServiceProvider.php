@@ -2,9 +2,9 @@
 
 namespace Ollico\Intelliada;
 
+use Ollico\Intelliada\Commands\IntelliadaCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Ollico\Intelliada\Commands\IntelliadaCommand;
 
 class IntelliadaServiceProvider extends PackageServiceProvider
 {
