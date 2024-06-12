@@ -7,7 +7,6 @@ use Ollico\Intelliada\Event;
 use Ollico\Intelliada\Http\Exceptions\HttpClientException;
 use Ollico\LaravelIntelliada\Facades\Intelliada;
 use Ollico\LaravelIntelliada\Tests\Mocks\FakeClient;
-use Ollico\LaravelIntelliada\Tests\TestCase;
 
 class IntelliadaTest extends TestCase
 {
