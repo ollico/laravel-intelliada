@@ -20,8 +20,11 @@ class SendEventJob implements ShouldQueue
     use SerializesModels;
 
     protected Client $client;
+
     protected string $tenantId;
+
     protected string $spaceId;
+
     protected Event $event;
 
     public function __construct(Client $client, string $tenantId, string $spaceId, Event $event)
