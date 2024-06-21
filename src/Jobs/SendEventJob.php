@@ -38,7 +38,7 @@ class SendEventJob implements ShouldQueue
     public function handle()
     {
         return $this->client->post(
-            'event',
+            'events',
             $this->tenantId,
             $this->spaceId,
             $this->event->payload()
