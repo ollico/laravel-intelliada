@@ -13,6 +13,6 @@ class Intelliada extends Facade
 {
     protected static function getFacadeAccessor(): string
     {
-        return \Ollico\Intelliada\Intelliada::class;
+        return \Ollico\LaravelIntelliada\Intelliada::class;
     }
 }
