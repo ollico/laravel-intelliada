@@ -3,7 +3,7 @@
 namespace Ollico\LaravelIntelliada;
 
 use Ollico\Intelliada\Http\Client;
-use Ollico\Intelliada\Intelliada;
+use Ollico\LaravelIntelliada\Intelliada;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
