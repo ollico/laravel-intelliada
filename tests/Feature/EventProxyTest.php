@@ -34,6 +34,24 @@ class EventProxyTest extends TestCase
             && $request['pathname'] === '/pricing');
     }
 
+    public function test_the_visitor_country_from_the_cdn_is_forwarded(): void
+    {
+        Http::fake(['*' => Http::response(['status' => 'accepted'], 202)]);
+
+        $this->postJson('/k3x9q2/e', ['event_type' => 'pageview'], ['CF-IPCountry' => 'GB'])->assertStatus(202);
+
+        Http::assertSent(fn (Request $request): bool => $request->header('X-Intelliada-Client-Country') === ['GB']);
+    }
+
+    public function test_no_country_is_forwarded_without_a_cdn_header(): void
+    {
+        Http::fake(['*' => Http::response(['status' => 'accepted'], 202)]);
+
+        $this->postJson('/k3x9q2/e', ['event_type' => 'pageview'])->assertStatus(202);
+
+        Http::assertSent(fn (Request $request): bool => ! $request->hasHeader('X-Intelliada-Client-Country'));
+    }
+
     public function test_events_do_not_need_a_csrf_token_or_session(): void
     {
         Http::fake(['*' => Http::response(['status' => 'accepted'], 202)]);

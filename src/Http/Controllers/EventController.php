@@ -36,11 +36,12 @@ class EventController
         try {
             $response = Http::acceptJson()
                 ->timeout((float) config('intelliada.timeout', 2))
-                ->withHeaders([
+                ->withHeaders(array_filter([
                     'X-Intelliada-Token' => (string) config('intelliada.token'),
                     'X-Intelliada-Client-Ip' => (string) $request->ip(),
                     'X-Intelliada-Client-User-Agent' => (string) $request->userAgent(),
-                ])
+                    'X-Intelliada-Client-Country' => $this->country($request),
+                ]))
                 ->post((string) config('intelliada.endpoint'), $payload);
         } catch (ConnectionException) {
             return new JsonResponse(['status' => 'unavailable'], 202);
@@ -49,5 +50,18 @@ class EventController
         $body = $response->json();
 
         return new JsonResponse(is_array($body) ? $body : [], $response->status());
+    }
+
+    private function country(Request $request): ?string
+    {
+        foreach ((array) config('intelliada.country_headers', []) as $header) {
+            $value = trim((string) $request->header((string) $header));
+
+            if ($value !== '') {
+                return $value;
+            }
+        }
+
+        return null;
     }
 }

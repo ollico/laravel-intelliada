@@ -66,6 +66,24 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Country headers
+    |--------------------------------------------------------------------------
+    |
+    | Request headers your CDN or load balancer sets with the visitor's
+    | two-letter country code. The first one present is passed to
+    | Intelliada so the dashboard can show where visitors are.
+    |
+    */
+
+    'country_headers' => [
+        'CF-IPCountry',
+        'CloudFront-Viewer-Country',
+        'X-Vercel-IP-Country',
+        'X-Country-Code',
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Route middleware
     |--------------------------------------------------------------------------
     |
