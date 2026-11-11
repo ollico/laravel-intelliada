@@ -1,0 +1,15 @@
+{
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "node build.mjs",
+        "types:check": "tsc --noEmit",
+        "format": "prettier --write resources/js build.mjs",
+        "format:check": "prettier --check resources/js build.mjs"
+    },
+    "devDependencies": {
+        "esbuild": "^0.25.0",
+        "prettier": "^3.4.2",
+        "typescript": "^5.7.2"
+    }
+}

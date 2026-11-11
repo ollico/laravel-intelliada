@@ -69,6 +69,17 @@ Visitors are identified by `$request->ip()`, so make sure Laravel's [trusted pro
 composer test
 ```
 
+## Developing the tracking script
+
+The script's TypeScript source is in `resources/js`: `index.ts` is the client and `script.ts` starts it from the script tag's `data-*` attributes. Build it into `resources/dist/intelliada.min.js`, which is what the package serves, and commit the result:
+
+```bash
+npm install
+npm run build
+```
+
+CI fails if the committed build doesn't match the source.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).
