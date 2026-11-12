@@ -79,6 +79,53 @@ class EventProxyTest extends TestCase
             ->assertExactJson(['status' => 'unavailable']);
     }
 
+    public function test_events_with_a_visitor_hash_are_answered_before_being_forwarded(): void
+    {
+        $hash = str_repeat('b', 64);
+        $sentBeforeResponse = null;
+        $responded = false;
+
+        Http::fake(function () use (&$sentBeforeResponse, &$responded) {
+            $sentBeforeResponse = ! $responded;
+
+            return Http::response(['message' => 'Invalid project token.'], 401);
+        });
+        $this->app->terminating(function () use (&$responded): void {
+            $responded = true;
+        });
+
+        $this->postJson('/k3x9q2/e', ['event_type' => 'pageview', 'visitor_hash' => $hash], [
+            'User-Agent' => self::CHROME,
+            'REMOTE_ADDR' => '203.0.113.7',
+        ])
+            ->assertStatus(202)
+            ->assertExactJson(['status' => 'accepted', 'visitor_hash' => $hash]);
+
+        $this->assertFalse($sentBeforeResponse);
+        Http::assertSent(fn (Request $request): bool => $request['visitor_hash'] === $hash
+            && $request->header('X-Intelliada-Token') === ['project-token']
+            && $request->header('X-Intelliada-Client-Ip') === ['203.0.113.7']
+            && $request->header('X-Intelliada-Client-User-Agent') === [self::CHROME]);
+    }
+
+    public function test_unreachable_intelliada_after_responding_does_not_error(): void
+    {
+        Http::fake(fn () => throw new ConnectionException('Timed out'));
+
+        $this->postJson('/k3x9q2/e', ['event_type' => 'pageview', 'visitor_hash' => str_repeat('c', 64)])
+            ->assertStatus(202)
+            ->assertJson(['status' => 'accepted']);
+    }
+
+    public function test_a_malformed_visitor_hash_waits_for_intelliada(): void
+    {
+        Http::fake(['*' => Http::response(['status' => 'accepted', 'visitor_hash' => str_repeat('d', 64)], 202)]);
+
+        $this->postJson('/k3x9q2/e', ['event_type' => 'pageview', 'visitor_hash' => 'not-a-hash'])
+            ->assertStatus(202)
+            ->assertExactJson(['status' => 'accepted', 'visitor_hash' => str_repeat('d', 64)]);
+    }
+
     public function test_nothing_is_forwarded_when_disabled(): void
     {
         Http::fake();
