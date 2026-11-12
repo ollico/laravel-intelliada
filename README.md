@@ -6,7 +6,7 @@
 
 Cookieless, first-party [Intelliada](https://intelliada.com) analytics for Laravel.
 
-The tracking script and its events are served from your own domain, under a path that's random to your app, so ad blockers have no third-party host or common pattern to block. Your project token stays on your server.
+The tracking script and its events are served from your own domain, under a path that's random to your app, so your analytics aren't treated as a third-party tracker. Your project token stays on your server.
 
 ## Installation
 
@@ -46,7 +46,22 @@ No cookies are set and nothing is stored beyond the browser session.
 
 `@intelliada` renders a script tag pointing at `/{path}/main.js` on your domain. The script sends events to `/{path}/e`, and the package forwards them to Intelliada with your token, the visitor's IP address and user agent, and their country if your CDN provides one. The visitor's IP address is used only to compute a daily-rotating visitor hash and is never stored.
 
+Only a visitor's first event waits for Intelliada, because the script needs the visitor hash it returns. Later events are answered straight away and forwarded after the response is sent, so a slow network doesn't hold up your app.
+
 These routes sit outside the `web` middleware group, so they use no session or CSRF token, and they're rate-limited per visitor.
+
+## Privacy and consent
+
+Serving analytics from your own domain doesn't change your privacy obligations. Whether you need consent depends on what's collected and where your visitors are, not on which domain the requests go to.
+
+What the package does:
+
+- Sets no cookies.
+- Keeps the visitor hash in `sessionStorage`, which is cleared when the tab closes.
+- Uses the visitor's IP address only to compute a hash with a salt that rotates daily, then discards it.
+- Skips automated browsers and known bots.
+
+Some regulators, such as those applying the EU ePrivacy Directive, treat any storage on the visitor's device as needing consent unless it's strictly necessary. If your own assessment says you need consent, only render `@intelliada` for visitors who have given it, and list Intelliada in your privacy policy.
 
 ## Configuration
 
