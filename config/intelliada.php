@@ -33,8 +33,8 @@ return [
     |--------------------------------------------------------------------------
     |
     | The tracking script and events are served under this path on your own
-    | domain. `intelliada:install` picks a random value so generic
-    | ad-blocker rules have nothing to match against.
+    | domain. `intelliada:install` picks a random value so it doesn't
+    | look like a common analytics path.
     |
     */
 
