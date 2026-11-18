@@ -43,7 +43,7 @@ class ScriptTag
         $base = '/'.self::path();
 
         return new HtmlString(sprintf(
-            '<script defer src="%s" data-endpoint="%s"></script>',
+            '<script defer src="%s" data-intelliada-endpoint="%s"></script>',
             e($base.'/'.self::SCRIPT_FILE.'?v='.self::version()),
             e($base.'/'.self::EVENT_PATH),
         ));

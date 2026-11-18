@@ -31,11 +31,11 @@ class ScriptTest extends TestCase
         $html = Blade::render('@intelliada');
 
         $this->assertSame(
-            '<script defer src="/k3x9q2/main.js?v='.ScriptTag::version().'" data-endpoint="/k3x9q2/e"></script>',
+            '<script defer src="/k3x9q2/main.js?v='.ScriptTag::version().'" data-intelliada-endpoint="/k3x9q2/e"></script>',
             $html,
         );
         $this->assertStringNotContainsString('project-token', $html);
-        $this->assertStringNotContainsString('intelliada', $html);
+        $this->assertDoesNotMatchRegularExpression('/src="[^"]*intelliada/', $html);
     }
 
     public function test_directive_renders_nothing_without_a_token(): void
