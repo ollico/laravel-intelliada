@@ -42,6 +42,26 @@ window.Intelliada?.trackEvent('Signup', { plan: 'pro' });
 
 No cookies are set and nothing is stored beyond the browser session.
 
+## Without Laravel
+
+The browser client is the [`intelliada`](https://www.npmjs.com/package/intelliada) package. Install it in a single-page app or any other JavaScript app and pass your project token:
+
+```bash
+npm install intelliada
+```
+
+```js
+import { init } from 'intelliada'
+
+const intelliada = init({
+    token: 'your-project-token',
+})
+
+intelliada.trackEvent('Signup', { plan: 'pro' })
+```
+
+Events then go to Intelliada from the browser, so the token is visible there. To keep it on your server, send events to an endpoint you control and pass that as `endpoint`, which is what `@intelliada` does.
+
 ## How it works
 
 `@intelliada` renders a script tag pointing at `/{path}/main.js` on your domain. The script sends events to `/{path}/e`, and the package forwards them to Intelliada with your token, the visitor's IP address and user agent, and their country if your CDN provides one. The visitor's IP address is used only to compute a daily-rotating visitor hash and is never stored.
@@ -86,14 +106,14 @@ composer test
 
 ## Developing the tracking script
 
-The script's TypeScript source is in `resources/js`: `index.ts` is the client and `script.ts` starts it from the script tag's `data-*` attributes. Build it into `resources/dist/intelliada.min.js`, which is what the package serves, and commit the result:
+`resources/js/script.ts` starts the installed `intelliada` package from the script tag's `data-*` attributes. The build bundles that dependency into `resources/dist/intelliada.min.js`, which is what this package serves. Commit that file:
 
 ```bash
 npm install
 npm run build
 ```
 
-CI fails if the committed build doesn't match the source.
+CI fails if the committed build doesn't match the source. The client itself is the [`intelliada`](https://www.npmjs.com/package/intelliada) package.
 
 ## License
 

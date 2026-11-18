@@ -1,4 +1,4 @@
-import { init } from './index';
+import { init } from 'intelliada';
 
 const script = document.currentScript as HTMLScriptElement | null;
 
