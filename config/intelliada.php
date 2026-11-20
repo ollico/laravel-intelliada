@@ -42,19 +42,6 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | AI agents
-    |--------------------------------------------------------------------------
-    |
-    | AI assistants such as ChatGPT and Claude fetch pages without running
-    | JavaScript. When this is on, a pageview is recorded from the server
-    | whenever one of them loads a page in the `web` middleware group.
-    |
-    */
-
-    'ai_agents' => (bool) env('INTELLIADA_AI_AGENTS', true),
-
-    /*
-    |--------------------------------------------------------------------------
     | Ingest endpoint
     |--------------------------------------------------------------------------
     |

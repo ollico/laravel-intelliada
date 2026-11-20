@@ -40,8 +40,6 @@ If your layout lives elsewhere, add the directive yourself:
 window.Intelliada?.trackEvent('Signup', { plan: 'pro' });
 ```
 
-- A pageview when an AI assistant such as ChatGPT, Claude or Perplexity fetches a page to answer someone's question. These don't run JavaScript, so the package records them from the server for any successful HTML page in the `web` middleware group. Intelliada shows them separately from people.
-
 No cookies are set and nothing is stored beyond the browser session.
 
 ## Without Laravel
@@ -81,7 +79,7 @@ What the package does:
 - Sets no cookies.
 - Keeps the visitor hash in `sessionStorage`, which is cleared when the tab closes.
 - Uses the visitor's IP address only to compute a hash with a salt that rotates daily, then discards it.
-- Skips automated browsers and known bots, apart from AI assistants, which are reported separately from people.
+- Skips automated browsers and known bots.
 
 Some regulators, such as those applying the EU ePrivacy Directive, treat any storage on the visitor's device as needing consent unless it's strictly necessary. If your own assessment says you need consent, only render `@intelliada` for visitors who have given it, and list Intelliada in your privacy policy.
 
@@ -93,7 +91,6 @@ Some regulators, such as those applying the EU ePrivacy Directive, treat any sto
 | `INTELLIADA_ENABLED` | `true` | Set to `false` to switch tracking off for an environment, such as local. |
 | `INTELLIADA_PATH` | `ia` | The first-party path. Set by `intelliada:install`. |
 | `INTELLIADA_TIMEOUT` | `2` | Seconds to wait when forwarding an event. |
-| `INTELLIADA_AI_AGENTS` | `true` | Set to `false` to stop recording pageviews from AI assistants. |
 
 The route middleware and the CDN country headers (`CF-IPCountry`, `CloudFront-Viewer-Country`, `X-Vercel-IP-Country`, `X-Country-Code`) can be changed in `config/intelliada.php`.
 
