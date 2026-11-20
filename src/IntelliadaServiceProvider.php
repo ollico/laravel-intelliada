@@ -2,12 +2,15 @@
 
 namespace Intelliada\Laravel;
 
+use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 use Intelliada\Laravel\Console\InstallCommand;
 use Intelliada\Laravel\Http\Controllers\EventController;
 use Intelliada\Laravel\Http\Controllers\ScriptController;
+use Intelliada\Laravel\Http\Middleware\RecordAiAgentPageviews;
 
 class IntelliadaServiceProvider extends ServiceProvider
 {
@@ -21,6 +24,12 @@ class IntelliadaServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $this->registerRoutes();
+
+        $kernel = $this->app->make(Kernel::class);
+
+        if ($kernel instanceof HttpKernel) {
+            $kernel->appendMiddlewareToGroup('web', RecordAiAgentPageviews::class);
+        }
 
         Blade::directive('intelliada', fn (): string => '<?php echo app(\\'.ScriptTag::class.'::class)->render(); ?>');
 
